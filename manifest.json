@@ -1,10 +1,10 @@
 {
-	"id": "obsidian-command-palette-mini-plugin",
-	"name": "Command Palette Mini",
+	"id": "obsidian-command-palette-minus-plugin",
+	"name": "Command Palette Minus",
 	"version": "0.0.0",
 	"minAppVersion": "0.12.0",
-	"description": "Command palette only with your favorite commands",
+	"description": "Remove useless commands from the command palette",
 	"author": "qawatake",
-	"authorUrl": "https://obsidian.md",
+	"authorUrl": "https://github.com/qawatake/obsidian-command-palette-minus-plugin",
 	"isDesktopOnly": false
 }
