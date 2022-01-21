@@ -1,6 +1,6 @@
 import { CommandSuggest } from 'CommandSuggest';
 import CommandPaletteMiniPlugin from 'main';
-import { App, Command, Notice, PluginSettingTab, Setting } from 'obsidian';
+import { App, Command, PluginSettingTab, Setting } from 'obsidian';
 
 interface CommandMap {
 	// key: command id
@@ -9,11 +9,11 @@ interface CommandMap {
 }
 
 export interface CommandPaletteMiniSettings {
-	commands: CommandMap;
+	removedCommands: CommandMap;
 }
 
 export const DEFAULT_SETTINGS: CommandPaletteMiniSettings = {
-	commands: {},
+	removedCommands: {},
 };
 
 export class CommandPaletteMiniSettingTab extends PluginSettingTab {
@@ -29,30 +29,23 @@ export class CommandPaletteMiniSettingTab extends PluginSettingTab {
 		containerEl.empty();
 
 		new Setting(containerEl)
-			.setName('Add command')
+			.setName('Remove command')
 			.addSearch((component) => {
-				new CommandSuggest(this.app, component.inputEl).onSelected(
-					async (cmd: Command) => {
-						if (!this.plugin.settings) {
-							return;
-						}
-						if (
-							Object.prototype.hasOwnProperty.call(
-								this.plugin.settings,
-								cmd.id
-							)
-						) {
-							new Notice(`"${cmd.name}" already exists!`);
-						} else {
-							this.plugin.settings.commands[cmd.id] = Date.now();
-							await this.plugin.saveSettings();
-						}
-						this.display();
+				new CommandSuggest(
+					this.app,
+					component.inputEl,
+					this.plugin
+				).onSelected(async (cmd: Command) => {
+					if (!this.plugin.settings) {
+						return;
 					}
-				);
+					this.plugin.settings.removedCommands[cmd.id] = Date.now();
+					await this.plugin.saveSettings();
+					this.display();
+				});
 			});
 
-		Object.entries(this.plugin.settings?.commands)
+		Object.entries(this.plugin.settings?.removedCommands)
 			.sort((entry1, entry2) => {
 				const timestamp1 = entry1[1],
 					timestamp2 = entry2[1];
@@ -78,14 +71,15 @@ export class CommandPaletteMiniSettingTab extends PluginSettingTab {
 				}
 				const cmd = this.app.commands.findCommand(id);
 				if (!cmd) {
-					console.log('xxx');
 					return;
 				}
 				new Setting(containerEl)
 					.setName(cmd.name)
 					.addExtraButton((component) => {
 						component.setIcon('cross').onClick(async () => {
-							delete this.plugin.settings?.commands[cmd.id];
+							delete this.plugin.settings?.removedCommands[
+								cmd.id
+							];
 							await this.plugin.saveSettings();
 							this.display();
 						});
