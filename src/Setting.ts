@@ -1,13 +1,19 @@
 import { CommandSuggest } from 'CommandSuggest';
 import CommandPaletteMiniPlugin from 'main';
-import { App, Command, PluginSettingTab, Setting } from 'obsidian';
+import { App, Command, Notice, PluginSettingTab, Setting } from 'obsidian';
+
+interface CommandMap {
+	// key: command id
+	// value: timestamp at which a command added
+	[id: string]: number;
+}
 
 export interface CommandPaletteMiniSettings {
-	commands: string[];
+	commands: CommandMap;
 }
 
 export const DEFAULT_SETTINGS: CommandPaletteMiniSettings = {
-	commands: [],
+	commands: {},
 };
 
 export class CommandPaletteMiniSettingTab extends PluginSettingTab {
@@ -25,40 +31,65 @@ export class CommandPaletteMiniSettingTab extends PluginSettingTab {
 		new Setting(containerEl)
 			.setName('Add command')
 			.addSearch((component) => {
-				if (this.plugin.settings) {
-					new CommandSuggest(this.app, component.inputEl).onSelected(
-						(cmd: Command) => {
-							if (!this.plugin.settings) {
-								return;
-							}
-							this.plugin.settings.commands.push(cmd.id);
-							this.plugin.saveSettings();
+				new CommandSuggest(this.app, component.inputEl).onSelected(
+					async (cmd: Command) => {
+						if (!this.plugin.settings) {
+							return;
 						}
+						if (
+							Object.prototype.hasOwnProperty.call(
+								this.plugin.settings,
+								cmd.id
+							)
+						) {
+							new Notice(`"${cmd.name}" already exists!`);
+						} else {
+							this.plugin.settings.commands[cmd.id] = Date.now();
+							await this.plugin.saveSettings();
+						}
+						this.display();
+					}
+				);
+			});
+
+		Object.entries(this.plugin.settings?.commands)
+			.sort((entry1, entry2) => {
+				const timestamp1 = entry1[1],
+					timestamp2 = entry2[1];
+				const bothNum =
+					typeof timestamp1 === 'number' &&
+					typeof timestamp2 === 'number';
+				if (bothNum) {
+					return timestamp2 - timestamp1; // new ↓ old
+				} else {
+					console.log(
+						'[ERROR in Command Palette Mini] failed to sort commands in setting tab'
 					);
+					return 0;
 				}
+			})
+			.forEach((entry) => {
+				const id = entry[0];
+				if (typeof id !== 'string') {
+					console.log(
+						'[ERROR in Command Palette Mini]: failed to display commands: wrong type'
+					);
+					return;
+				}
+				const cmd = this.app.commands.findCommand(id);
+				if (!cmd) {
+					console.log('xxx');
+					return;
+				}
+				new Setting(containerEl)
+					.setName(cmd.name)
+					.addExtraButton((component) => {
+						component.setIcon('cross').onClick(async () => {
+							delete this.plugin.settings?.commands[cmd.id];
+							await this.plugin.saveSettings();
+							this.display();
+						});
+					});
 			});
 	}
-
-	// search(query: string): { score: number | undefined; command: Command }[] {
-	// 	const fuzzy = prepareFuzzySearch(query);
-	// 	const commands = this.app.commands.listCommands();
-	// 	return commands
-	// 		.map((cmd) => {
-	// 			const result = fuzzy(cmd.name);
-	// 			return { score: result?.score, command: cmd };
-	// 		})
-	// 		.filter((result) => {
-	// 			return result.score !== undefined;
-	// 		})
-	// 		.sort((a, b) => {
-	// 			if (a.score !== undefined && b.score !== undefined) {
-	// 				return b.score - a.score;
-	// 			} else {
-	// 				console.log(
-	// 					'[ERROR in Command Palette Mini: failed to sort commands.'
-	// 				);
-	// 				return 0;
-	// 			}
-	// 		});
-	// }
 }

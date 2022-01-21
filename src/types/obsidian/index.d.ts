@@ -8,6 +8,6 @@ declare module 'obsidian' {
 	interface CommandManager {
 		listCommands(): Command[];
 		executeCommandById(id: string): void;
-		findCommand(id: string): void;
+		findCommand(id: string): Command | undefined | null;
 	}
 }

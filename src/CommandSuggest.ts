@@ -24,7 +24,7 @@ export class CommandSuggest extends TextInputSuggest<Command> {
 					return b.score - a.score;
 				} else {
 					console.log(
-						'[ERROR in Command Palette Mini: failed to sort commands.'
+						'[ERROR in Command Palette Mini] failed to sort commands in suggestion.'
 					);
 					return 0;
 				}
@@ -37,9 +37,6 @@ export class CommandSuggest extends TextInputSuggest<Command> {
 	}
 
 	selectSuggestion(cmd: Command): void {
-		this.inputEl.value = cmd.name;
-		this.inputEl.trigger('input');
-
 		if (this._onSelected) {
 			this._onSelected(cmd);
 		}
