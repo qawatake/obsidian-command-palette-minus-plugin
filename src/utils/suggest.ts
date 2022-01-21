@@ -40,8 +40,21 @@ class Suggest<T> {
 			}
 			return false;
 		});
+		scope.register(['Ctrl'], 'p', (event) => {
+			if (!event.isComposing) {
+				this.setSelectedItem(this.selectedItem - 1, true);
+			}
+			return false;
+		});
 
 		scope.register([], 'ArrowDown', (event) => {
+			if (!event.isComposing) {
+				this.setSelectedItem(this.selectedItem + 1, true);
+				return false;
+			}
+			return false;
+		});
+		scope.register(['Ctrl'], 'n', (event) => {
 			if (!event.isComposing) {
 				this.setSelectedItem(this.selectedItem + 1, true);
 				return false;
