@@ -1,5 +1,5 @@
 import { CommandSuggest } from 'CommandSuggest';
-import CommandPaletteMiniPlugin from 'main';
+import CommandPaletteMinusPlugin from 'main';
 import { App, Command, PluginSettingTab, Setting } from 'obsidian';
 
 interface CommandMap {
@@ -8,18 +8,18 @@ interface CommandMap {
 	[id: string]: number;
 }
 
-export interface CommandPaletteMiniSettings {
+export interface CommandPaletteMinusSettings {
 	removedCommands: CommandMap;
 }
 
-export const DEFAULT_SETTINGS: CommandPaletteMiniSettings = {
+export const DEFAULT_SETTINGS: CommandPaletteMinusSettings = {
 	removedCommands: {},
 };
 
-export class CommandPaletteMiniSettingTab extends PluginSettingTab {
-	private plugin: CommandPaletteMiniPlugin;
+export class CommandPaletteMinusSettingTab extends PluginSettingTab {
+	private plugin: CommandPaletteMinusPlugin;
 
-	constructor(app: App, plugin: CommandPaletteMiniPlugin) {
+	constructor(app: App, plugin: CommandPaletteMinusPlugin) {
 		super(app, plugin);
 		this.plugin = plugin;
 	}
@@ -46,6 +46,7 @@ export class CommandPaletteMiniSettingTab extends PluginSettingTab {
 			});
 
 		Object.entries(this.plugin.settings?.removedCommands)
+			// new ↓ old
 			.sort((entry1, entry2) => {
 				const timestamp1 = entry1[1],
 					timestamp2 = entry2[1];
@@ -56,7 +57,7 @@ export class CommandPaletteMiniSettingTab extends PluginSettingTab {
 					return timestamp2 - timestamp1; // new ↓ old
 				} else {
 					console.log(
-						'[ERROR in Command Palette Mini] failed to sort commands in setting tab'
+						'[ERROR in Command Palette--] failed to sort commands in setting tab'
 					);
 					return 0;
 				}
@@ -65,7 +66,7 @@ export class CommandPaletteMiniSettingTab extends PluginSettingTab {
 				const id = entry[0];
 				if (typeof id !== 'string') {
 					console.log(
-						'[ERROR in Command Palette Mini]: failed to display commands: wrong type'
+						'[ERROR in Command Palette--]: failed to display commands: wrong type'
 					);
 					return;
 				}

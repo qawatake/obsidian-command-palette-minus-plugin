@@ -1,15 +1,15 @@
-import CommandPaletteMiniPlugin from 'main';
+import CommandPaletteMinusPlugin from 'main';
 import { App, Command, prepareFuzzySearch } from 'obsidian';
 import { TextInputSuggest } from 'utils/suggest';
 
 export class CommandSuggest extends TextInputSuggest<Command> {
-	private plugin: CommandPaletteMiniPlugin;
+	private plugin: CommandPaletteMinusPlugin;
 	private _onSelected: ((cmd: Command) => void) | undefined;
 
 	constructor(
 		app: App,
 		inputEl: HTMLInputElement | HTMLTextAreaElement,
-		plugin: CommandPaletteMiniPlugin
+		plugin: CommandPaletteMinusPlugin
 	) {
 		super(app, inputEl);
 		this.plugin = plugin;
@@ -40,7 +40,7 @@ export class CommandSuggest extends TextInputSuggest<Command> {
 						return b.score - a.score;
 					} else {
 						console.log(
-							'[ERROR in Command Palette Mini] failed to sort commands in suggestion.'
+							'[ERROR in Command Palette--] failed to sort commands in suggestion.'
 						);
 						return 0;
 					}

@@ -1,10 +1,10 @@
-import CommandPaletteMiniPlugin from 'main';
+import CommandPaletteMinusPlugin from 'main';
 import { App, Command, FuzzySuggestModal } from 'obsidian';
 
-export class CommandPaletteMiniModal extends FuzzySuggestModal<Command> {
-	private plugin: CommandPaletteMiniPlugin;
+export class CommandPaletteMinusModal extends FuzzySuggestModal<Command> {
+	private plugin: CommandPaletteMinusPlugin;
 
-	constructor(app: App, plugin: CommandPaletteMiniPlugin) {
+	constructor(app: App, plugin: CommandPaletteMinusPlugin) {
 		super(app);
 		this.plugin = plugin;
 

@@ -1,28 +1,28 @@
-import { CommandPaletteMiniModal } from 'Modal';
+import { CommandPaletteMinusModal } from 'Modal';
 import { Plugin } from 'obsidian';
 import {
-	CommandPaletteMiniSettings,
-	CommandPaletteMiniSettingTab,
+	CommandPaletteMinusSettings,
+	CommandPaletteMinusSettingTab,
 	DEFAULT_SETTINGS,
 } from 'Setting';
 
-export default class CommandPaletteMiniPlugin extends Plugin {
-	settings: CommandPaletteMiniSettings | undefined;
+export default class CommandPaletteMinusPlugin extends Plugin {
+	settings: CommandPaletteMinusSettings | undefined;
 
 	override async onload() {
 		await this.loadSettings();
 
 		this.addCommand({
-			id: 'command-palette-mini:open',
+			id: 'command-palette-minus:open',
 			name: 'Open command palette',
 			callback: () => {
-				const modal = new CommandPaletteMiniModal(this.app, this);
+				const modal = new CommandPaletteMinusModal(this.app, this);
 				console.log(modal);
 				modal.open();
 			},
 		});
 
-		this.addSettingTab(new CommandPaletteMiniSettingTab(this.app, this));
+		this.addSettingTab(new CommandPaletteMinusSettingTab(this.app, this));
 	}
 
 	// override onunload() {}
