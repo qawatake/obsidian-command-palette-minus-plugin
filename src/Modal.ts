@@ -1,4 +1,4 @@
-import CommandPaletteMinusPlugin from 'main';
+import CommandPaletteMinusPlugin, { GLOBAL_COMMAND_ID } from 'main';
 import { App, Command, FuzzySuggestModal } from 'obsidian';
 
 export class CommandPaletteMinusModal extends FuzzySuggestModal<Command> {
@@ -46,7 +46,7 @@ export class CommandPaletteMinusModal extends FuzzySuggestModal<Command> {
 				!Object.prototype.hasOwnProperty.call(
 					this.plugin.settings?.removedCommands,
 					cmd.id
-				)
+				) && cmd.id !== GLOBAL_COMMAND_ID
 		);
 	}
 

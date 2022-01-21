@@ -6,6 +6,10 @@ import {
 	DEFAULT_SETTINGS,
 } from 'Setting';
 
+const LOCAL_COMMAND_ID = 'open';
+const PLUGIN_ID = 'obsidian-command-palette-minus-plugin';
+export const GLOBAL_COMMAND_ID = `${PLUGIN_ID}:${LOCAL_COMMAND_ID}`;
+
 export default class CommandPaletteMinusPlugin extends Plugin {
 	settings: CommandPaletteMinusSettings | undefined;
 
@@ -13,12 +17,10 @@ export default class CommandPaletteMinusPlugin extends Plugin {
 		await this.loadSettings();
 
 		this.addCommand({
-			id: 'command-palette-minus:open',
+			id: LOCAL_COMMAND_ID,
 			name: 'Open command palette',
 			callback: () => {
-				const modal = new CommandPaletteMinusModal(this.app, this);
-				console.log(modal);
-				modal.open();
+				new CommandPaletteMinusModal(this.app, this).open();
 			},
 		});
 
