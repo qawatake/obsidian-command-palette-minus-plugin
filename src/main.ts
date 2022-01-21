@@ -1,22 +1,19 @@
 import { Plugin } from 'obsidian';
+import {
+	CommandPaletteMiniSettings,
+	CommandPaletteMiniSettingTab,
+	DEFAULT_SETTINGS,
+} from 'Setting';
 
 // Remember to rename these classes and interfaces!
 
-interface MyPluginSettings {
-	mySetting: string;
-}
-
-const DEFAULT_SETTINGS: MyPluginSettings = {
-	mySetting: 'default',
-};
-
-export default class MyPlugin extends Plugin {
-	settings: MyPluginSettings | undefined;
+export default class CommandPaletteMiniPlugin extends Plugin {
+	settings: CommandPaletteMiniSettings | undefined;
 
 	override async onload() {
 		await this.loadSettings();
 		// // This adds a settings tab so the user can configure various aspects of the plugin
-		// this.addSettingTab(new SampleSettingTab(this.app, this));
+		this.addSettingTab(new CommandPaletteMiniSettingTab(this.app, this));
 	}
 
 	// override onunload() {}
