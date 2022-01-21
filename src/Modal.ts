@@ -1,22 +1,6 @@
 import CommandPaletteMiniPlugin from 'main';
 import { App, Command, FuzzySuggestModal } from 'obsidian';
 
-// export class CommandPaletteMiniModal extends Modal {
-// 	constructor(app: App) {
-// 		super(app);
-// 	}
-
-// 	override onOpen() {
-// 		const { contentEl } = this;
-// 		contentEl.setText("Look at me, I'm a modal! 👀");
-// 	}
-
-// 	override onClose() {
-// 		const { contentEl } = this;
-// 		contentEl.empty();
-// 	}
-// }
-
 export class CommandPaletteMiniModal extends FuzzySuggestModal<Command> {
 	private plugin: CommandPaletteMiniPlugin;
 
@@ -25,11 +9,34 @@ export class CommandPaletteMiniModal extends FuzzySuggestModal<Command> {
 		this.plugin = plugin;
 
 		this.scope.register(['Ctrl'], 'p', () => {
-			this.chooser.setSelectedItem(this.chooser.selectedItem - 1);
+			this.inputEl.dispatchEvent(
+				new KeyboardEvent('keydown', { key: 'ArrowUp' })
+			);
 		});
 		this.scope.register(['Ctrl'], 'n', () => {
-			this.chooser.setSelectedItem(this.chooser.selectedItem + 1);
+			this.inputEl.dispatchEvent(
+				new KeyboardEvent('keydown', { key: 'ArrowDown' })
+			);
 		});
+
+		this.setInstructions([
+			{
+				command: '↑↓',
+				purpose: 'to navigate',
+			},
+			{
+				command: 'ctrl p/n',
+				purpose: 'to navigate',
+			},
+			{
+				command: '↵',
+				purpose: 'to use',
+			},
+			{
+				command: 'esc',
+				purpose: 'to dismiss',
+			},
+		]);
 	}
 
 	getItems(): Command[] {
