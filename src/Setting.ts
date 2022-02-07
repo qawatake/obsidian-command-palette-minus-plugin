@@ -2,18 +2,24 @@ import { CommandSuggest } from 'CommandSuggest';
 import CommandPaletteMinusPlugin from 'main';
 import { App, Command, PluginSettingTab, Setting } from 'obsidian';
 
-interface CommandMap {
-	// key: command id
-	// value: timestamp at which a command added
-	[id: string]: number;
+interface RemovedCommandMap {
+	[commandId: string]: RegisteredAt;
 }
+type RegisteredAt = number;
+
+interface UsedCommandMap {
+	[commandId: string]: UsedAt;
+}
+type UsedAt = number;
 
 export interface CommandPaletteMinusSettings {
-	removedCommands: CommandMap;
+	removedCommands: RemovedCommandMap;
+	usedCommands: UsedCommandMap;
 }
 
 export const DEFAULT_SETTINGS: CommandPaletteMinusSettings = {
 	removedCommands: {},
+	usedCommands: {},
 };
 
 export class CommandPaletteMinusSettingTab extends PluginSettingTab {
