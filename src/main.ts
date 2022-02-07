@@ -10,8 +10,14 @@ const LOCAL_COMMAND_ID = 'open';
 const PLUGIN_ID = 'obsidian-command-palette-minus-plugin';
 export const GLOBAL_COMMAND_ID = `${PLUGIN_ID}:${LOCAL_COMMAND_ID}`;
 
+interface UsedCommands {
+	[commandId: string]: UsedAt;
+}
+type UsedAt = number;
+
 export default class CommandPaletteMinusPlugin extends Plugin {
 	settings: CommandPaletteMinusSettings | undefined;
+	usedCommands: UsedCommands = {};
 
 	override async onload() {
 		await this.loadSettings();
