@@ -6,9 +6,14 @@ declare module 'obsidian' {
 	}
 
 	interface CommandManager {
-		listCommands(): Command[];
+		listCommands(): Command[]; // list only available commands
+		commands: CommandMap; // list all commands
 		executeCommandById(id: string): void;
 		findCommand(id: string): Command | undefined | null;
+	}
+
+	interface CommandMap {
+		[commandId: string]: Command;
 	}
 
 	interface FuzzySuggestModal {

@@ -17,7 +17,7 @@ export class CommandSuggest extends TextInputSuggest<Command> {
 
 	getSuggestions(query: string): Command[] {
 		const fuzzy = prepareFuzzySearch(query);
-		const commands = this.app.commands.listCommands();
+		const commands = Object.values(this.app.commands.commands);
 		return (
 			commands
 				// remove commands
