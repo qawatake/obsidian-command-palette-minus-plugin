@@ -2,22 +2,29 @@ import { CommandSuggest } from 'CommandSuggest';
 import CommandPaletteMinusPlugin from 'main';
 import { App, Command, PluginSettingTab, Setting } from 'obsidian';
 
-interface CommandMap {
-	// key: command id
-	// value: timestamp at which a command added
-	[id: string]: number;
+interface RemovedCommandMap {
+	[commandId: string]: RegisteredAt;
 }
+type RegisteredAt = number;
+
+interface UsedCommandMap {
+	[commandId: string]: UsedAt;
+}
+type UsedAt = number;
 
 export interface CommandPaletteMinusSettings {
-	removedCommands: CommandMap;
+	removedCommands: RemovedCommandMap;
+	usedCommands: UsedCommandMap;
 }
 
 export const DEFAULT_SETTINGS: CommandPaletteMinusSettings = {
 	removedCommands: {},
+	usedCommands: {},
 };
 
 export class CommandPaletteMinusSettingTab extends PluginSettingTab {
-	private plugin: CommandPaletteMinusPlugin;
+	private readonly plugin: CommandPaletteMinusPlugin;
+	private inputEl: HTMLInputElement | undefined;
 
 	constructor(app: App, plugin: CommandPaletteMinusPlugin) {
 		super(app, plugin);
@@ -31,6 +38,7 @@ export class CommandPaletteMinusSettingTab extends PluginSettingTab {
 		new Setting(containerEl)
 			.setName('Remove command')
 			.addSearch((component) => {
+				this.inputEl = component.inputEl;
 				new CommandSuggest(
 					this.app,
 					component.inputEl,
@@ -42,6 +50,7 @@ export class CommandPaletteMinusSettingTab extends PluginSettingTab {
 					this.plugin.settings.removedCommands[cmd.id] = Date.now();
 					await this.plugin.saveSettings();
 					this.display();
+					this.focus();
 				});
 			});
 
@@ -86,5 +95,9 @@ export class CommandPaletteMinusSettingTab extends PluginSettingTab {
 						});
 					});
 			});
+	}
+
+	private focus() {
+		this.inputEl?.focus();
 	}
 }

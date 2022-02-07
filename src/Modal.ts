@@ -50,8 +50,8 @@ export class CommandPaletteMinusModal extends FuzzySuggestModal<Command> {
 					) && cmd.id !== GLOBAL_COMMAND_ID
 			)
 			.sort((cmd1, cmd2) => {
-				const usedAt1 = this.plugin.usedCommands[cmd1.id];
-				const usedAt2 = this.plugin.usedCommands[cmd2.id];
+				const usedAt1 = this.plugin.settings?.usedCommands[cmd1.id];
+				const usedAt2 = this.plugin.settings?.usedCommands[cmd2.id];
 				if (usedAt1 === undefined && usedAt2 === undefined) return 0;
 				if (usedAt1 !== undefined && usedAt2 !== undefined) {
 					return usedAt2 - usedAt1;
@@ -66,6 +66,8 @@ export class CommandPaletteMinusModal extends FuzzySuggestModal<Command> {
 
 	onChooseItem(cmd: Command, _evt: MouseEvent | KeyboardEvent): void {
 		this.app.commands.executeCommandById(cmd.id);
-		this.plugin.usedCommands[cmd.id] = Date.now();
+		if (!this.plugin.settings) return;
+		this.plugin.settings.usedCommands[cmd.id] = Date.now();
+		this.plugin.saveSettings();
 	}
 }
