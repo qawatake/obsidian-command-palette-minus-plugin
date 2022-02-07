@@ -1,9 +1,9 @@
 {
 	"id": "obsidian-command-palette-minus-plugin",
 	"name": "Command Palette--",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"minAppVersion": "0.12.0",
-	"description": "Remove useless commands from the command palette",
+	"description": "Command palette without unwanted commands",
 	"author": "qawatake",
 	"authorUrl": "https://github.com/qawatake/obsidian-command-palette-minus-plugin",
 	"isDesktopOnly": false
