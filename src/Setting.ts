@@ -17,7 +17,8 @@ export const DEFAULT_SETTINGS: CommandPaletteMinusSettings = {
 };
 
 export class CommandPaletteMinusSettingTab extends PluginSettingTab {
-	private plugin: CommandPaletteMinusPlugin;
+	private readonly plugin: CommandPaletteMinusPlugin;
+	private inputEl: HTMLInputElement | undefined;
 
 	constructor(app: App, plugin: CommandPaletteMinusPlugin) {
 		super(app, plugin);
@@ -31,6 +32,7 @@ export class CommandPaletteMinusSettingTab extends PluginSettingTab {
 		new Setting(containerEl)
 			.setName('Remove command')
 			.addSearch((component) => {
+				this.inputEl = component.inputEl;
 				new CommandSuggest(
 					this.app,
 					component.inputEl,
@@ -42,6 +44,7 @@ export class CommandPaletteMinusSettingTab extends PluginSettingTab {
 					this.plugin.settings.removedCommands[cmd.id] = Date.now();
 					await this.plugin.saveSettings();
 					this.display();
+					this.focus();
 				});
 			});
 
@@ -86,5 +89,9 @@ export class CommandPaletteMinusSettingTab extends PluginSettingTab {
 						});
 					});
 			});
+	}
+
+	private focus() {
+		this.inputEl?.focus();
 	}
 }
