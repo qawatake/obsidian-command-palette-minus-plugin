@@ -40,14 +40,24 @@ export class CommandPaletteMinusModal extends FuzzySuggestModal<Command> {
 	}
 
 	getItems(): Command[] {
-		const commands = this.app.commands.listCommands();
-		return commands.filter(
-			(cmd) =>
-				!Object.prototype.hasOwnProperty.call(
-					this.plugin.settings?.removedCommands,
-					cmd.id
-				) && cmd.id !== GLOBAL_COMMAND_ID
-		);
+		return this.app.commands
+			.listCommands()
+			.filter(
+				(cmd) =>
+					!Object.prototype.hasOwnProperty.call(
+						this.plugin.settings?.removedCommands,
+						cmd.id
+					) && cmd.id !== GLOBAL_COMMAND_ID
+			)
+			.sort((cmd1, cmd2) => {
+				const usedAt1 = this.plugin.usedCommands[cmd1.id];
+				const usedAt2 = this.plugin.usedCommands[cmd2.id];
+				if (usedAt1 === undefined && usedAt2 === undefined) return 0;
+				if (usedAt1 !== undefined && usedAt2 !== undefined) {
+					return usedAt2 - usedAt1;
+				}
+				return usedAt1 !== undefined ? -1 : 1;
+			});
 	}
 
 	getItemText(cmd: Command): string {
@@ -56,5 +66,6 @@ export class CommandPaletteMinusModal extends FuzzySuggestModal<Command> {
 
 	onChooseItem(cmd: Command, _evt: MouseEvent | KeyboardEvent): void {
 		this.app.commands.executeCommandById(cmd.id);
+		this.plugin.usedCommands[cmd.id] = Date.now();
 	}
 }
