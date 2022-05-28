@@ -2,6 +2,9 @@
 .vscode
 .devcontainer
 
+# jetBrains
+.idea
+
 # Dockerfile
 Dockerfile
 

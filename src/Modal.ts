@@ -1,4 +1,4 @@
-import CommandPaletteMinusPlugin, { GLOBAL_COMMAND_ID } from 'main';
+import CommandPaletteMinusPlugin from 'main';
 import { App, Command, FuzzySuggestModal } from 'obsidian';
 
 export class CommandPaletteMinusModal extends FuzzySuggestModal<Command> {
@@ -40,24 +40,7 @@ export class CommandPaletteMinusModal extends FuzzySuggestModal<Command> {
 	}
 
 	getItems(): Command[] {
-		return this.app.commands
-			.listCommands()
-			.filter(
-				(cmd) =>
-					!Object.prototype.hasOwnProperty.call(
-						this.plugin.settings?.removedCommands,
-						cmd.id
-					) && cmd.id !== GLOBAL_COMMAND_ID
-			)
-			.sort((cmd1, cmd2) => {
-				const usedAt1 = this.plugin.settings?.usedCommands[cmd1.id];
-				const usedAt2 = this.plugin.settings?.usedCommands[cmd2.id];
-				if (usedAt1 === undefined && usedAt2 === undefined) return 0;
-				if (usedAt1 !== undefined && usedAt2 !== undefined) {
-					return usedAt2 - usedAt1;
-				}
-				return usedAt1 !== undefined ? -1 : 1;
-			});
+		return this.plugin.listCommands();
 	}
 
 	getItemText(cmd: Command): string {
