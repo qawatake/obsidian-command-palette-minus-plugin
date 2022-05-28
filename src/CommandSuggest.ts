@@ -1,4 +1,4 @@
-import CommandPaletteMinusPlugin, { GLOBAL_COMMAND_ID } from 'main';
+import CommandPaletteMinusPlugin from 'main';
 import { App, Command, prepareFuzzySearch } from 'obsidian';
 import { TextInputSuggest } from 'utils/suggest';
 
@@ -20,13 +20,13 @@ export class CommandSuggest extends TextInputSuggest<Command> {
 		const commands = Object.values(this.app.commands.commands);
 		return (
 			commands
-				// remove commands
+				// remove selected commands
 				.filter(
 					(cmd) =>
-						!Object.prototype.hasOwnProperty.call(
-							this.plugin.settings?.removedCommands,
-							cmd.id
-						) && cmd.id !== GLOBAL_COMMAND_ID
+						!(
+							cmd.id in
+							(this.plugin.settings?.selectedCommands ?? {})
+						)
 				)
 				// use score for sort
 				.map((cmd) => {

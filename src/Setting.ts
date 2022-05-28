@@ -5,21 +5,27 @@ import { App, Command, PluginSettingTab, Setting } from 'obsidian';
 interface RemovedCommandMap {
 	[commandId: string]: RegisteredAt;
 }
+
 type RegisteredAt = number;
 
 interface UsedCommandMap {
 	[commandId: string]: UsedAt;
 }
+
 type UsedAt = number;
 
 export interface CommandPaletteMinusSettings {
-	removedCommands: RemovedCommandMap;
+	selectedCommands: RemovedCommandMap;
 	usedCommands: UsedCommandMap;
+	allowMode: boolean;
+	inject: boolean;
 }
 
 export const DEFAULT_SETTINGS: CommandPaletteMinusSettings = {
-	removedCommands: {},
+	selectedCommands: {},
 	usedCommands: {},
+	allowMode: false,
+	inject: false,
 };
 
 export class CommandPaletteMinusSettingTab extends PluginSettingTab {
@@ -33,10 +39,36 @@ export class CommandPaletteMinusSettingTab extends PluginSettingTab {
 
 	display() {
 		const { containerEl } = this;
+		const settings = this.plugin.settings;
 		containerEl.empty();
 
 		new Setting(containerEl)
-			.setName('Remove command')
+			.setName('Inject the default command palette')
+			.setDesc(
+				'Turn on to inject the default command palette. The slash commands plugin will also be affected.'
+			)
+			.addToggle((component) => {
+				component.setValue(settings.inject).onChange((value) => {
+					settings.inject = value;
+					this.plugin.inject(value);
+					this.plugin.saveSettings();
+				});
+			});
+
+		new Setting(containerEl)
+			.setName('Mode: Deny list / Allow list')
+			.setDesc(
+				'Turn on to allow the commands in the list, and turn off to deny the commands in the list.'
+			)
+			.addToggle((component) => {
+				component.setValue(settings.allowMode).onChange((value) => {
+					settings.allowMode = value;
+					this.plugin.saveSettings();
+				});
+			});
+
+		new Setting(containerEl)
+			.setName('Select command')
 			.addSearch((component) => {
 				this.inputEl = component.inputEl;
 				new CommandSuggest(
@@ -47,14 +79,14 @@ export class CommandPaletteMinusSettingTab extends PluginSettingTab {
 					if (!this.plugin.settings) {
 						return;
 					}
-					this.plugin.settings.removedCommands[cmd.id] = Date.now();
+					this.plugin.settings.selectedCommands[cmd.id] = Date.now();
 					await this.plugin.saveSettings();
 					this.display();
 					this.focus();
 				});
 			});
 
-		Object.entries(this.plugin.settings?.removedCommands)
+		Object.entries(this.plugin.settings?.selectedCommands)
 			// new ↓ old
 			.sort((entry1, entry2) => {
 				const timestamp1 = entry1[1],
@@ -87,7 +119,7 @@ export class CommandPaletteMinusSettingTab extends PluginSettingTab {
 					.setName(cmd.name)
 					.addExtraButton((component) => {
 						component.setIcon('cross').onClick(async () => {
-							delete this.plugin.settings?.removedCommands[
+							delete this.plugin.settings?.selectedCommands[
 								cmd.id
 							];
 							await this.plugin.saveSettings();
