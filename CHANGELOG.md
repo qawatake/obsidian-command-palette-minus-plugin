@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.3](https://github.com/qawatake/obsidian-command-palette-minus-plugin/compare/0.1.2...0.1.3) - 2026-08-22
+
+- Show settings suggestions when settings open in a pop-out window by @qawatake in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/9
+
 ## [0.1.2](https://github.com/qawatake/obsidian-command-palette-minus-plugin/compare/0.1.1...0.1.2) - 2026-08-16
 
 - Refocus after selecting commands in the setting tab by @qawatake in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/2
