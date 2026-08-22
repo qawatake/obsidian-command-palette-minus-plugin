@@ -1,14 +1,18 @@
 import CommandPaletteMinusPlugin, { GLOBAL_COMMAND_ID } from 'main';
-import { App, Command, prepareFuzzySearch } from 'obsidian';
-import { TextInputSuggest } from 'utils/suggest';
+import {
+	AbstractInputSuggest,
+	App,
+	Command,
+	prepareFuzzySearch,
+} from 'obsidian';
 
-export class CommandSuggest extends TextInputSuggest<Command> {
+export class CommandSuggest extends AbstractInputSuggest<Command> {
 	private plugin: CommandPaletteMinusPlugin;
 	private _onSelected: ((cmd: Command) => void) | undefined;
 
 	constructor(
 		app: App,
-		inputEl: HTMLInputElement | HTMLTextAreaElement,
+		inputEl: HTMLInputElement,
 		plugin: CommandPaletteMinusPlugin
 	) {
 		super(app, inputEl);
@@ -54,7 +58,7 @@ export class CommandSuggest extends TextInputSuggest<Command> {
 		el.textContent = cmd.name;
 	}
 
-	selectSuggestion(cmd: Command): void {
+	override selectSuggestion(cmd: Command): void {
 		if (this._onSelected) {
 			this._onSelected(cmd);
 		}
