@@ -1,10 +1,10 @@
 import { CommandPaletteMinusModal } from 'Modal';
-import { Plugin } from 'obsidian';
 import {
-	CommandPaletteMinusSettings,
+	type CommandPaletteMinusSettings,
 	CommandPaletteMinusSettingTab,
 	DEFAULT_SETTINGS,
 } from 'Setting';
+import { Plugin } from 'obsidian';
 
 const LOCAL_COMMAND_ID = 'open';
 const PLUGIN_ID = 'obsidian-command-palette-minus-plugin';
@@ -30,11 +30,7 @@ export default class CommandPaletteMinusPlugin extends Plugin {
 	// override onunload() {}
 
 	async loadSettings() {
-		this.settings = Object.assign(
-			{},
-			DEFAULT_SETTINGS,
-			await this.loadData()
-		);
+		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
 	}
 
 	async saveSettings() {

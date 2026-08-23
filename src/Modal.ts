@@ -1,5 +1,6 @@
-import CommandPaletteMinusPlugin, { GLOBAL_COMMAND_ID } from 'main';
-import { App, Command, FuzzySuggestModal } from 'obsidian';
+import type CommandPaletteMinusPlugin from 'main';
+import { GLOBAL_COMMAND_ID } from 'main';
+import { type App, type Command, FuzzySuggestModal } from 'obsidian';
 
 export class CommandPaletteMinusModal extends FuzzySuggestModal<Command> {
 	private plugin: CommandPaletteMinusPlugin;
@@ -44,10 +45,8 @@ export class CommandPaletteMinusModal extends FuzzySuggestModal<Command> {
 			.listCommands()
 			.filter(
 				(cmd) =>
-					!Object.prototype.hasOwnProperty.call(
-						this.plugin.settings?.removedCommands,
-						cmd.id
-					) && cmd.id !== GLOBAL_COMMAND_ID
+					!Object.hasOwn(this.plugin.settings?.removedCommands, cmd.id) &&
+					cmd.id !== GLOBAL_COMMAND_ID
 			)
 			.sort((cmd1, cmd2) => {
 				const usedAt1 = this.plugin.settings?.usedCommands[cmd1.id];
