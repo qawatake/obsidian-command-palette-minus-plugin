@@ -1,6 +1,6 @@
 import { CommandSuggest } from 'CommandSuggest';
-import CommandPaletteMinusPlugin from 'main';
-import { App, Command, PluginSettingTab, Setting } from 'obsidian';
+import type CommandPaletteMinusPlugin from 'main';
+import { type App, type Command, PluginSettingTab, Setting } from 'obsidian';
 
 interface RemovedCommandMap {
 	[commandId: string]: RegisteredAt;
@@ -39,19 +39,17 @@ export class CommandPaletteMinusSettingTab extends PluginSettingTab {
 			.setName('Remove command')
 			.addSearch((component) => {
 				this.inputEl = component.inputEl;
-				new CommandSuggest(
-					this.app,
-					component.inputEl,
-					this.plugin
-				).onSelected(async (cmd: Command) => {
-					if (!this.plugin.settings) {
-						return;
+				new CommandSuggest(this.app, component.inputEl, this.plugin).onSelected(
+					async (cmd: Command) => {
+						if (!this.plugin.settings) {
+							return;
+						}
+						this.plugin.settings.removedCommands[cmd.id] = Date.now();
+						await this.plugin.saveSettings();
+						this.display();
+						this.focus();
 					}
-					this.plugin.settings.removedCommands[cmd.id] = Date.now();
-					await this.plugin.saveSettings();
-					this.display();
-					this.focus();
-				});
+				);
 			});
 
 		Object.entries(this.plugin.settings?.removedCommands)
@@ -60,8 +58,7 @@ export class CommandPaletteMinusSettingTab extends PluginSettingTab {
 				const timestamp1 = entry1[1],
 					timestamp2 = entry2[1];
 				const bothNum =
-					typeof timestamp1 === 'number' &&
-					typeof timestamp2 === 'number';
+					typeof timestamp1 === 'number' && typeof timestamp2 === 'number';
 				if (bothNum) {
 					return timestamp2 - timestamp1; // new ↓ old
 				} else {
@@ -87,9 +84,7 @@ export class CommandPaletteMinusSettingTab extends PluginSettingTab {
 					.setName(cmd.name)
 					.addExtraButton((component) => {
 						component.setIcon('cross').onClick(async () => {
-							delete this.plugin.settings?.removedCommands[
-								cmd.id
-							];
+							delete this.plugin.settings?.removedCommands[cmd.id];
 							await this.plugin.saveSettings();
 							this.display();
 						});

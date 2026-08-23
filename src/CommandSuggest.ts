@@ -1,8 +1,9 @@
-import CommandPaletteMinusPlugin, { GLOBAL_COMMAND_ID } from 'main';
+import type CommandPaletteMinusPlugin from 'main';
+import { GLOBAL_COMMAND_ID } from 'main';
 import {
 	AbstractInputSuggest,
-	App,
-	Command,
+	type App,
+	type Command,
 	prepareFuzzySearch,
 } from 'obsidian';
 
@@ -27,10 +28,8 @@ export class CommandSuggest extends AbstractInputSuggest<Command> {
 				// remove commands
 				.filter(
 					(cmd) =>
-						!Object.prototype.hasOwnProperty.call(
-							this.plugin.settings?.removedCommands,
-							cmd.id
-						) && cmd.id !== GLOBAL_COMMAND_ID
+						!Object.hasOwn(this.plugin.settings?.removedCommands, cmd.id) &&
+						cmd.id !== GLOBAL_COMMAND_ID
 				)
 				// use score for sort
 				.map((cmd) => {
