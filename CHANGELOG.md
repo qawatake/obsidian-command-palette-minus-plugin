@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.5](https://github.com/qawatake/obsidian-command-palette-minus-plugin/compare/0.1.4...0.1.5) - 2026-08-30
+
+### Changes
+- ci: tier Dependabot cooldown by semver level by @qawatake in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/32
+- chore: sync dev-environment improvements from core-search-assistant by @qawatake in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/34
+- build(deps-dev): bump @biomejs/biome from 2.5.8 to 2.5.10 in the npm-minor-patch group by @dependabot[bot] in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/35
+
 ## [0.1.4](https://github.com/qawatake/obsidian-command-palette-minus-plugin/compare/0.1.3...0.1.4) - 2026-08-23
 
 ### Changes
