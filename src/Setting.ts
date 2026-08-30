@@ -31,7 +31,7 @@ export class CommandPaletteMinusSettingTab extends PluginSettingTab {
 		this.plugin = plugin;
 	}
 
-	display() {
+	override display() {
 		const { containerEl } = this;
 		containerEl.empty();
 
@@ -52,7 +52,7 @@ export class CommandPaletteMinusSettingTab extends PluginSettingTab {
 				);
 			});
 
-		Object.entries(this.plugin.settings?.removedCommands)
+		Object.entries(this.plugin.settings?.removedCommands ?? {})
 			// new ↓ old
 			.sort((entry1, entry2) => {
 				const timestamp1 = entry1[1],
