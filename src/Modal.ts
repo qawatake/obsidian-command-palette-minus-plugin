@@ -45,7 +45,7 @@ export class CommandPaletteMinusModal extends FuzzySuggestModal<Command> {
 			.listCommands()
 			.filter(
 				(cmd) =>
-					!Object.hasOwn(this.plugin.settings?.removedCommands, cmd.id) &&
+					!Object.hasOwn(this.plugin.settings?.removedCommands ?? {}, cmd.id) &&
 					cmd.id !== GLOBAL_COMMAND_ID
 			)
 			.sort((cmd1, cmd2) => {
