@@ -1,5 +1,33 @@
 # Changelog
 
+## [0.1.5](https://github.com/qawatake/obsidian-command-palette-minus-plugin/compare/0.1.4...0.1.5) - 2026-10-10
+
+### Changes
+- ci: tier Dependabot cooldown by semver level by @qawatake in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/32
+- chore: sync dev-environment improvements from core-search-assistant by @qawatake in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/34
+- build(deps-dev): bump @biomejs/biome from 2.5.8 to 2.5.10 in the npm-minor-patch group by @dependabot[bot] in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/35
+- chore: schedule Dependabot on Saturday 03:00 JST by @qawatake in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/36
+- chore: use flat 7-day cooldown for github-actions by @qawatake in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/37
+- build(deps): bump jdx/mise-action from 4.2.5 to 4.3.0 by @dependabot[bot] in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/38
+- build(deps-dev): bump @biomejs/biome from 2.5.10 to 2.5.11 in the npm-minor-patch group by @dependabot[bot] in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/41
+- build(deps): bump softprops/action-gh-release from 3.0.2 to 3.0.3 by @dependabot[bot] in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/39
+- build(deps): bump Songmu/tagpr from 1.20.1 to 1.20.2 by @dependabot[bot] in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/40
+- build(deps): bump Songmu/tagpr from 1.20.2 to 1.20.3 by @dependabot[bot] in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/42
+- build(deps-dev): bump @biomejs/biome from 2.5.11 to 2.5.12 in the npm-minor-patch group by @dependabot[bot] in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/43
+- Tighten Dependabot and CI supply-chain policy by @qawatake in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/44
+- Point biome.jsonc at the installed Biome schema by @qawatake in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/46
+- Check that config $schema versions match package.json by @qawatake in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/47
+- Align check-config-schema.mjs imports with Biome's order by @qawatake in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/48
+- Pin dependency ranges to the resolved versions by @qawatake in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/49
+- build(deps-dev): bump the npm-minor-patch group with 2 updates by @dependabot[bot] in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/50
+- build(deps-dev): bump the npm-minor-patch group with 2 updates by @dependabot[bot] in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/51
+- build(deps): bump Songmu/tagpr from 1.20.3 to 1.21.0 by @dependabot[bot] in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/52
+- build(deps-dev): bump @types/node from 24.13.5 to 24.19.0 in the npm-minor-patch group across 1 directory by @dependabot[bot] in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/53
+- build: main.js に bundle される package を CI で検査する by @qawatake in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/55
+- build(deps): bump Songmu/tagpr from 1.21.0 to 1.21.1 by @dependabot[bot] in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/56
+- build(deps-dev): bump the npm-minor-patch group with 2 updates by @dependabot[bot] in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/58
+- build(deps): bump jdx/mise-action from 4.3.0 to 5.0.1 by @dependabot[bot] in https://github.com/qawatake/obsidian-command-palette-minus-plugin/pull/57
+
 ## [0.1.4](https://github.com/qawatake/obsidian-command-palette-minus-plugin/compare/0.1.3...0.1.4) - 2026-08-23
 
 ### Changes
